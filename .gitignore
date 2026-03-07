@@ -1,8 +1,36 @@
+# Python virtual environment
 ml_env/
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+# Dynamic libraries
 *.dll
 *.so
 *.dylib
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# VS Code / IDE settings
+.vscode/
+*.code-workspace
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Git itself
+*.orig
+
+# OS files
+.DS_Store
+Thumbs.db
