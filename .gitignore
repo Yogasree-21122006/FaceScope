@@ -6,4 +6,3 @@ __pycache__/
 *.dll
 *.so
 *.dylib
-*.egg-info/
