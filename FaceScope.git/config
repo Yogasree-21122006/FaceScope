@@ -1,0 +1,11 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/Yogasree-21122006/FaceScope.git
+	tagOpt = --no-tags
+	fetch = +refs/*:refs/*
+	mirror = true
