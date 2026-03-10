@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 from PIL import Image
 
-API_URL = "http://127.0.0.1:8000/verify"
+API_URL = "https://facescope-api.onrender.com/predict"
 
 st.title("Face Recognition System")
 st.write("Upload a CROPPED face image for verification.")
