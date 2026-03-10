@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 from PIL import Image
 
-API_URL = "https://facescope-api.onrender.com/predict"
+API_URL = "https://facescope-api.onrender.com/verify"
 
 st.title("Face Recognition System")
 st.write("Upload a CROPPED face image for verification.")
@@ -18,7 +18,7 @@ if uploaded_file:
     st.image(image, caption="Uploaded Image", use_column_width=True)
 
     files = {
-        "file": uploaded_file.getvalue()
+        "file": (uploaded_file.name, uploaded_file.getvalue())
     }
 
     response = requests.post(API_URL, files=files)
@@ -36,4 +36,3 @@ if uploaded_file:
 
     else:
         st.error("API Error")
-
