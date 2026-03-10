@@ -29,7 +29,6 @@ with open("embeddings.pkl", "rb") as f:
     embedding_db = pickle.load(f)
 
 
-
 transform = transforms.Compose([
     transforms.Resize((160, 160)),
     transforms.ToTensor()
@@ -46,39 +45,47 @@ def cosine_similarity(a, b):
     return similarity.item()
 
 
+@app.get("/")
+def home():
+    return {"message": "Face Verification API Running"}
+
 
 @app.post("/verify")
 async def verify_face(file: UploadFile = File(...)):
+    try:
 
-    contents = await file.read()
-    image = Image.open(io.BytesIO(contents)).convert("RGB")
+        contents = await file.read()
+        image = Image.open(io.BytesIO(contents)).convert("RGB")
 
-    img_tensor = transform(image).unsqueeze(0).to(DEVICE)
+        img_tensor = transform(image).unsqueeze(0).to(DEVICE)
 
-    with torch.no_grad():
-        test_embedding = model(img_tensor)
-        test_embedding = test_embedding.squeeze(0)
+        with torch.no_grad():
+            test_embedding = model(img_tensor)
+            test_embedding = test_embedding.squeeze(0)
 
-    best_match = None
-    best_score = -1
+        best_match = None
+        best_score = -1
 
-    for name, db_embedding in embedding_db.items():
+        for name, db_embedding in embedding_db.items():
 
-        db_embedding = torch.tensor(
-            db_embedding,
-            dtype=torch.float32
-        ).to(DEVICE)
+            db_embedding = torch.tensor(
+                db_embedding,
+                dtype=torch.float32
+            ).to(DEVICE)
 
-        score = cosine_similarity(test_embedding, db_embedding)
+            score = cosine_similarity(test_embedding, db_embedding)
 
-        if score > best_score:
-            best_score = score
-            best_match = name
+            if score > best_score:
+                best_score = score
+                best_match = name
 
-    result = "VERIFIED" if best_score > THRESHOLD else "UNKNOWN"
+        result = "VERIFIED" if best_score > THRESHOLD else "UNKNOWN"
 
-    return {
-        "best_match": best_match,
-        "similarity_score": float(best_score),
-        "result": result
-    }
+        return {
+            "best_match": best_match,
+            "similarity_score": float(best_score),
+            "result": result
+        }
+
+    except Exception as e:
+        return {"error": str(e)}
