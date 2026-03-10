@@ -3,7 +3,7 @@ import requests
 from PIL import Image
 
 # Backend API URL
-API_URL = "https://facescope-api.onrender.com/predict"
+API_URL = "https://facescope-api.onrender.com/verify"
 
 st.title("Face Recognition System")
 st.write("Upload a CROPPED face image for verification.")
